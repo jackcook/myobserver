@@ -12,14 +12,20 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        let deviceSize = UIScreen.mainScreen().bounds
+        
+        let leftPanorama = GMSPanoramaView(frame: CGRectMake(0, 0, deviceSize.width / 2, deviceSize.height))
+        leftPanorama.moveNearCoordinate(CLLocationCoordinate2DMake(-33.732, 150.312))
+        
+        let rightPanorama = GMSPanoramaView(frame: CGRectMake(deviceSize.width / 2, 0, deviceSize.width / 2, deviceSize.height))
+        rightPanorama.moveNearCoordinate(CLLocationCoordinate2DMake(-33.732, 150.312))
+        
+        self.view.addSubview(leftPanorama)
+        self.view.addSubview(rightPanorama)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
     }
-
-
 }
-
