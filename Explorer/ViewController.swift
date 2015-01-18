@@ -27,6 +27,12 @@ class ViewController: UIViewController {
     var location: CLLocation!
     
     var currentPose = TLMPoseType.Unknown
+    var baseZ: Float = 5
+    
+    var canForwards = true
+    var canBackwards = true
+    
+    var quaternionZ: Float = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +53,6 @@ class ViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged:", name: UIDeviceOrientationDidChangeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "myoConnected", name: TLMHubDidConnectDeviceNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceivePoseChange:", name: TLMMyoDidReceivePoseChangedNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didSyncArm:", name: TLMMyoDidReceiveArmSyncEventNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveOrientationEvent:", name: TLMMyoDidReceiveOrientationEventNotification, object: nil)
     }
     
@@ -65,13 +70,13 @@ class ViewController: UIViewController {
         if !viewsWereLaidOut {
             viewsWereLaidOut = true
             left = GMSPanoramaView(frame: leftPanorama.bounds)
-            left.moveNearCoordinate(CLLocationCoordinate2DMake(40.7577, 73.9857))
+            left.moveNearCoordinate(CLLocationCoordinate2DMake(40.7577, -73.9857))
             left.orientationGestures = false
             left.subviews[1].removeFromSuperview()
             left.subviews[1].removeFromSuperview()
             
             right = GMSPanoramaView(frame: rightPanorama.bounds)
-            right.moveNearCoordinate(CLLocationCoordinate2DMake(40.7577, 73.9857))
+            right.moveNearCoordinate(CLLocationCoordinate2DMake(40.7577, -73.9857))
             right.orientationGestures = false
             right.subviews[1].removeFromSuperview()
             right.subviews[1].removeFromSuperview()
@@ -109,29 +114,61 @@ class ViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func didSyncArm(notification: NSNotification) {
-        let armEvent = (notification.userInfo as Dictionary<String, AnyObject>)[kTLMKeyArmSyncEvent] as TLMArmSyncEvent
-        println("connected")
-    }
-    
     func didReceiveOrientationEvent(notification: NSNotification) {
         let orientationEvent = (notification.userInfo as Dictionary<String, AnyObject>)[kTLMKeyOrientationEvent] as TLMOrientationEvent
         let x: Float = orientationEvent.quaternion.x
+        let y: Float = orientationEvent.quaternion.y
+        let z: Float = orientationEvent.quaternion.z
+        
+        quaternionZ = z
         
         if currentPose == .Fist {
-            let camera = GMSPanoramaCamera(heading: left.camera.orientation.heading, pitch: left.camera.orientation.pitch, zoom: 3 + (-x * 4.5))
+            let camera = GMSPanoramaCamera(heading: left.camera.orientation.heading, pitch: left.camera.orientation.pitch, zoom: 3 + (-x * 4))
             left.animateToCamera(camera, animationDuration: 0.05)
+            
+            if y >= 0.5 {
+                currentPose = .Unknown
+            }
         }
         
-        //println("x: \(orientationEvent.quaternion.x), zoom: \(left.camera.zoom)")
+        if baseZ == 5 {
+            let timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "setBaseZ", userInfo: nil, repeats: false)
+            NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+            return
+        }
+        
+        if z <= baseZ - 0.25 {
+            move(true)
+            canForwards = false
+            
+            let timer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "allowForwards", userInfo: nil, repeats: false)
+            NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+        } else if z >= baseZ + 0.25 {
+            move(true)
+            canBackwards = false
+            
+            let timer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "allowBackwards", userInfo: nil, repeats: false)
+            NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+        }
+        
+        println("x: \(orientationEvent.quaternion.z), zoom: \(left.camera.zoom)")
+    }
+    
+    func allowForwards() {
+        canForwards = true
+    }
+    
+    func allowBackwards() {
+        canBackwards = true
+    }
+    
+    func setBaseZ() {
+        baseZ = baseZ == 5 ? quaternionZ : baseZ
     }
     
     func didReceivePoseChange(notification: NSNotification) {
+        println("change")
         let pose = (notification.userInfo as Dictionary<String, AnyObject>)[kTLMKeyPose] as TLMPose
-        
-        if currentPose == .Fist && pose.type != .Fist {
-            
-        }
         
         currentPose = pose.type
         
@@ -139,14 +176,14 @@ class ViewController: UIViewController {
         case .Rest:
             println("rest")
         case .Fist:
-            move(true)
             println("fist")
         case .WaveIn:
             println("wavein")
+            move(false)
         case .WaveOut:
             println("waveout")
+            move(true)
         case .FingersSpread:
-            move(false)
             println("fingersspread")
         case .DoubleTap:
             println("doubletap")
