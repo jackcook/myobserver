@@ -43,10 +43,19 @@ class ViewController: UIViewController {
         location = CLLocation(latitude: 42.29217747796312, longitude: -83.71481317402007)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged:", name: UIDeviceOrientationDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "myoConnected", name: TLMHubDidConnectDeviceNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceivePoseChange:", name: TLMMyoDidReceivePoseChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didSyncArm:", name: TLMMyoDidReceiveArmSyncEventNotification, object: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
         UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
+        
+        if TLMHub.sharedHub().myoDevices().count == 0 {
+            let settings = TLMSettingsViewController()
+            self.presentViewController(settings, animated: true, completion: nil)
+            TLMHub.sharedHub().attachToAdjacent()
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -58,8 +67,8 @@ class ViewController: UIViewController {
             left.subviews[1].removeFromSuperview()
             left.subviews[1].removeFromSuperview()
             
-            let timer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "move", userInfo: nil, repeats: true)
-            NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+            //let timer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "move", userInfo: nil, repeats: true)
+            //NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
             
             right = GMSPanoramaView(frame: rightPanorama.bounds)
             right.moveNearCoordinate(CLLocationCoordinate2DMake(42.29217747796312, -83.71481317402007))
@@ -79,11 +88,11 @@ class ViewController: UIViewController {
         }
     }
     
-    func move() {
+    func move(forwards: Bool) {
         location = CLLocation(latitude: left.panorama.coordinate.latitude, longitude: left.panorama.coordinate.longitude)
         
         let theta = -h
-        let distance: Double = 0.0001
+        let distance: Double = (forwards ? 1 : -1) * 0.0001
         let x1: Double = location.coordinate.latitude
         let y1: Double = location.coordinate.longitude
         
@@ -94,6 +103,36 @@ class ViewController: UIViewController {
         location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         left.moveNearCoordinate(coordinate)
         right.moveNearCoordinate(coordinate)
+    }
+    
+    func myoConnected() {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func didSyncArm(notification: NSNotification) {
+        let armEvent = (notification.userInfo as Dictionary<String, AnyObject>)[kTLMKeyArmSyncEvent] as TLMArmSyncEvent
+        println("connected")
+    }
+    
+    func didReceivePoseChange(notification: NSNotification) {
+        let pose = (notification.userInfo as Dictionary<String, AnyObject>)[kTLMKeyPose] as TLMPose
+        
+        switch pose.type {
+        case .Rest:
+            println("rest")
+        case .Fist:
+            move(true)
+        case .WaveIn:
+            println("wavein")
+        case .WaveOut:
+            println("waveout")
+        case .FingersSpread:
+            move(false)
+        case .DoubleTap:
+            println("doubletap")
+        default:
+            println("unknown")
+        }
     }
     
     override func prefersStatusBarHidden() -> Bool {

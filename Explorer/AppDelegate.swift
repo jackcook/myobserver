@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         GMSServices.provideAPIKey("AIzaSyCP1PuStu5Z-p2IQD_lOmOEM8w2mCGNlxY")
+        TLMHub.sharedHub()
         return true
     }
 
