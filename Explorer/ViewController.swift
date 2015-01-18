@@ -63,6 +63,7 @@ class ViewController: UIViewController {
             
             right = GMSPanoramaView(frame: rightPanorama.bounds)
             right.moveNearCoordinate(CLLocationCoordinate2DMake(42.29217747796312, -83.71481317402007))
+            right.orientationGestures = false
             right.subviews[1].removeFromSuperview()
             right.subviews[1].removeFromSuperview()
             
@@ -92,6 +93,7 @@ class ViewController: UIViewController {
         let coordinate = CLLocationCoordinate2DMake(x2, y2)
         location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         left.moveNearCoordinate(coordinate)
+        right.moveNearCoordinate(coordinate)
     }
     
     override func prefersStatusBarHidden() -> Bool {
