@@ -18,6 +18,7 @@
 		EB26CA521A6B6240008A5D04 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB26CA511A6B6240008A5D04 /* CoreBluetooth.framework */; };
 		EB26CA541A6B6247008A5D04 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB26CA531A6B6247008A5D04 /* SystemConfiguration.framework */; };
 		EB50DF231A6C111A00939C08 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = EB50DF221A6C111A00939C08 /* check.png */; };
+		EB50DF251A6C1B8800939C08 /* pegman.png in Resources */ = {isa = PBXBuildFile; fileRef = EB50DF241A6C1B8800939C08 /* pegman.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		EB26CA511A6B6240008A5D04 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		EB26CA531A6B6247008A5D04 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		EB50DF221A6C111A00939C08 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
+		EB50DF241A6C1B8800939C08 /* pegman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pegman.png; sourceTree = "<group>"; };
 		F7918912A5815A300EF88120 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -164,6 +166,7 @@
 		EB50DF211A6C111A00939C08 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				EB50DF241A6C1B8800939C08 /* pegman.png */,
 				EB50DF221A6C111A00939C08 /* check.png */,
 			);
 			path = images;
@@ -251,6 +254,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB50DF251A6C1B8800939C08 /* pegman.png in Resources */,
 				EB001FF81A6B0A6C0057F374 /* Main.storyboard in Resources */,
 				EB001FFD1A6B0A6C0057F374 /* LaunchScreen.xib in Resources */,
 				EB50DF231A6C111A00939C08 /* check.png in Resources */,
@@ -435,6 +439,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Explorer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = MyObserver;
 				SWIFT_OBJC_BRIDGING_HEADER = Explorer/util/ObjectiveBridge.h;
@@ -451,6 +456,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Explorer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = MyObserver;
 				SWIFT_OBJC_BRIDGING_HEADER = Explorer/util/ObjectiveBridge.h;
