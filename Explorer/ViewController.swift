@@ -27,11 +27,13 @@ class ViewController: UIViewController {
     var location: CLLocation!
     
     var currentPose = TLMPoseType.Unknown
+    var baseY: Float = 5
     var baseZ: Float = 5
     
     var canForwards = true
     var canBackwards = true
     
+    var quaternionY: Float = 0
     var quaternionZ: Float = 0
     
     override func viewDidLoad() {
@@ -94,7 +96,9 @@ class ViewController: UIViewController {
     }
     
     func move(forwards: Bool) {
-        location = CLLocation(latitude: left.panorama.coordinate.latitude, longitude: left.panorama.coordinate.longitude)
+        let streetView = left.valueForKey("streetView_") as UIView
+        //println("\(streetView.gestureRecognizers)")
+        /*location = CLLocation(latitude: left.panorama.coordinate.latitude, longitude: left.panorama.coordinate.longitude)
         
         let theta = -h
         let distance: Double = (forwards ? 1 : -1) * 0.0001
@@ -107,7 +111,7 @@ class ViewController: UIViewController {
         let coordinate = CLLocationCoordinate2DMake(x2, y2)
         location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         left.moveNearCoordinate(coordinate)
-        right.moveNearCoordinate(coordinate)
+        right.moveNearCoordinate(coordinate)*/
     }
     
     func myoConnected() {
@@ -123,7 +127,7 @@ class ViewController: UIViewController {
         quaternionZ = z
         
         if currentPose == .Fist {
-            let camera = GMSPanoramaCamera(heading: left.camera.orientation.heading, pitch: left.camera.orientation.pitch, zoom: 3 + (-x * 4))
+            let camera = GMSPanoramaCamera(heading: left.camera.orientation.heading, pitch: left.camera.orientation.pitch, zoom: 3 + ((baseY + (baseY + -y)) * 8))
             left.animateToCamera(camera, animationDuration: 0.05)
             
             if y >= 0.5 {
@@ -132,26 +136,30 @@ class ViewController: UIViewController {
         }
         
         if baseZ == 5 {
-            let timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "setBaseZ", userInfo: nil, repeats: false)
+            let timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "setBase", userInfo: nil, repeats: false)
             NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
             return
         }
         
         if z <= baseZ - 0.25 {
-            move(true)
-            canForwards = false
+            if canForwards {
+                move(true)
+                canForwards = false
+            }
             
             let timer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "allowForwards", userInfo: nil, repeats: false)
             NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
         } else if z >= baseZ + 0.25 {
-            move(true)
-            canBackwards = false
+            if canBackwards {
+                move(true)
+                canBackwards = false
+            }
             
             let timer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "allowBackwards", userInfo: nil, repeats: false)
             NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
         }
         
-        println("x: \(orientationEvent.quaternion.z), zoom: \(left.camera.zoom)")
+        println("x: \(-orientationEvent.quaternion.x), y: \(-orientationEvent.quaternion.y), zoom: \(left.camera.zoom)")
     }
     
     func allowForwards() {
@@ -162,7 +170,8 @@ class ViewController: UIViewController {
         canBackwards = true
     }
     
-    func setBaseZ() {
+    func setBase() {
+        baseY = baseY == 5 ? quaternionY : baseY
         baseZ = baseZ == 5 ? quaternionZ : baseZ
     }
     
@@ -179,10 +188,8 @@ class ViewController: UIViewController {
             println("fist")
         case .WaveIn:
             println("wavein")
-            move(false)
         case .WaveOut:
             println("waveout")
-            move(true)
         case .FingersSpread:
             println("fingersspread")
         case .DoubleTap:
