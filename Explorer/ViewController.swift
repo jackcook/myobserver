@@ -27,7 +27,6 @@ class ViewController: UIViewController {
     var location: CLLocation!
     
     var currentPose = TLMPoseType.Unknown
-    var zoomModifier: Float = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,16 +65,13 @@ class ViewController: UIViewController {
         if !viewsWereLaidOut {
             viewsWereLaidOut = true
             left = GMSPanoramaView(frame: leftPanorama.bounds)
-            left.moveNearCoordinate(CLLocationCoordinate2DMake(42.29217747796312, -83.71481317402007))
+            left.moveNearCoordinate(CLLocationCoordinate2DMake(40.7577, 73.9857))
             left.orientationGestures = false
             left.subviews[1].removeFromSuperview()
             left.subviews[1].removeFromSuperview()
             
-            //let timer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "move", userInfo: nil, repeats: true)
-            //NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
-            
             right = GMSPanoramaView(frame: rightPanorama.bounds)
-            right.moveNearCoordinate(CLLocationCoordinate2DMake(42.29217747796312, -83.71481317402007))
+            right.moveNearCoordinate(CLLocationCoordinate2DMake(40.7577, 73.9857))
             right.orientationGestures = false
             right.subviews[1].removeFromSuperview()
             right.subviews[1].removeFromSuperview()
@@ -120,18 +116,14 @@ class ViewController: UIViewController {
     
     func didReceiveOrientationEvent(notification: NSNotification) {
         let orientationEvent = (notification.userInfo as Dictionary<String, AnyObject>)[kTLMKeyOrientationEvent] as TLMOrientationEvent
-        let y: Float = orientationEvent.quaternion.y
+        let x: Float = orientationEvent.quaternion.x
         
         if currentPose == .Fist {
-            let camera = GMSPanoramaCamera(heading: left.camera.orientation.heading, pitch: left.camera.orientation.pitch, zoom: left.camera.zoom + (2 * (zoomModifier + 1)))
+            let camera = GMSPanoramaCamera(heading: left.camera.orientation.heading, pitch: left.camera.orientation.pitch, zoom: 3 + (-x * 4.5))
             left.animateToCamera(camera, animationDuration: 0.05)
-        } else {
-            if zoomModifier != 0 {
-                zoomModifier = 0
-            }
         }
         
-        println("y: \(orientationEvent.quaternion.y), zoom: \(left.camera.zoom)")
+        //println("x: \(orientationEvent.quaternion.x), zoom: \(left.camera.zoom)")
     }
     
     func didReceivePoseChange(notification: NSNotification) {
