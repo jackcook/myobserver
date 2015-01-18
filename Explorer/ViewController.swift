@@ -26,6 +26,9 @@ class ViewController: UIViewController {
     var heading: CLHeading!
     var location: CLLocation!
     
+    var currentPose = TLMPoseType.Unknown
+    var zoomModifier: Float = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,6 +49,7 @@ class ViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "myoConnected", name: TLMHubDidConnectDeviceNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceivePoseChange:", name: TLMMyoDidReceivePoseChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didSyncArm:", name: TLMMyoDidReceiveArmSyncEventNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveOrientationEvent:", name: TLMMyoDidReceiveOrientationEventNotification, object: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -114,20 +118,44 @@ class ViewController: UIViewController {
         println("connected")
     }
     
+    func didReceiveOrientationEvent(notification: NSNotification) {
+        let orientationEvent = (notification.userInfo as Dictionary<String, AnyObject>)[kTLMKeyOrientationEvent] as TLMOrientationEvent
+        let y: Float = orientationEvent.quaternion.y
+        
+        if currentPose == .Fist {
+            let camera = GMSPanoramaCamera(heading: left.camera.orientation.heading, pitch: left.camera.orientation.pitch, zoom: left.camera.zoom + (2 * (zoomModifier + 1)))
+            left.animateToCamera(camera, animationDuration: 0.05)
+        } else {
+            if zoomModifier != 0 {
+                zoomModifier = 0
+            }
+        }
+        
+        println("y: \(orientationEvent.quaternion.y), zoom: \(left.camera.zoom)")
+    }
+    
     func didReceivePoseChange(notification: NSNotification) {
         let pose = (notification.userInfo as Dictionary<String, AnyObject>)[kTLMKeyPose] as TLMPose
+        
+        if currentPose == .Fist && pose.type != .Fist {
+            
+        }
+        
+        currentPose = pose.type
         
         switch pose.type {
         case .Rest:
             println("rest")
         case .Fist:
             move(true)
+            println("fist")
         case .WaveIn:
             println("wavein")
         case .WaveOut:
             println("waveout")
         case .FingersSpread:
             move(false)
+            println("fingersspread")
         case .DoubleTap:
             println("doubletap")
         default:
