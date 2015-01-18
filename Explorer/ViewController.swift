@@ -22,6 +22,9 @@ class ViewController: UIViewController {
     
     var viewsWereLaidOut = false
     
+    let startLat = 40.7577
+    let startLon = -73.9857
+    
     var h: Double = 0
     var heading: CLHeading!
     var location: CLLocation!
@@ -54,7 +57,7 @@ class ViewController: UIViewController {
             self.right.animateToCamera(camera, animationDuration: 0.01)
         })
         
-        location = CLLocation(latitude: 40.7577, longitude: -73.9857)
+        location = CLLocation(latitude: startLat, longitude: startLon)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged:", name: UIDeviceOrientationDidChangeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "myoConnected", name: TLMHubDidConnectDeviceNotification, object: nil)
@@ -87,13 +90,13 @@ class ViewController: UIViewController {
         if !viewsWereLaidOut {
             viewsWereLaidOut = true
             left = GMSPanoramaView(frame: leftPanorama.bounds)
-            left.moveNearCoordinate(CLLocationCoordinate2DMake(40.7577, -73.9857))
+            left.moveNearCoordinate(CLLocationCoordinate2DMake(startLat, startLon))
             left.orientationGestures = false
             left.subviews[1].removeFromSuperview()
             left.subviews[1].removeFromSuperview()
             
             right = GMSPanoramaView(frame: rightPanorama.bounds)
-            right.moveNearCoordinate(CLLocationCoordinate2DMake(40.7577, -73.9857))
+            right.moveNearCoordinate(CLLocationCoordinate2DMake(startLat, startLon))
             right.orientationGestures = false
             right.subviews[1].removeFromSuperview()
             right.subviews[1].removeFromSuperview()
@@ -111,7 +114,7 @@ class ViewController: UIViewController {
     }
     
     func move(forwards: Bool) {
-        location = CLLocation(latitude: left.panorama.coordinate.latitude, longitude: left.panorama.coordinate.longitude)
+        /*location = CLLocation(latitude: left.panorama.coordinate.latitude, longitude: left.panorama.coordinate.longitude)
         
         let theta = -h
         let distance: Double = (forwards ? 1 : -1) * 0.0001
@@ -124,7 +127,7 @@ class ViewController: UIViewController {
         let coordinate = CLLocationCoordinate2DMake(x2, y2)
         location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         left.moveNearCoordinate(coordinate)
-        right.moveNearCoordinate(coordinate)
+        right.moveNearCoordinate(coordinate)*/
     }
     
     func myoConnected() {
