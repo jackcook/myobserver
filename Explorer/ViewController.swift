@@ -98,9 +98,7 @@ class ViewController: UIViewController {
     }
     
     func move(forwards: Bool) {
-        let streetView = left.valueForKey("streetView_") as UIView
-        //println("\(streetView.gestureRecognizers)")
-        /*location = CLLocation(latitude: left.panorama.coordinate.latitude, longitude: left.panorama.coordinate.longitude)
+        location = CLLocation(latitude: left.panorama.coordinate.latitude, longitude: left.panorama.coordinate.longitude)
         
         let theta = -h
         let distance: Double = (forwards ? 1 : -1) * 0.0001
@@ -113,7 +111,7 @@ class ViewController: UIViewController {
         let coordinate = CLLocationCoordinate2DMake(x2, y2)
         location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         left.moveNearCoordinate(coordinate)
-        right.moveNearCoordinate(coordinate)*/
+        right.moveNearCoordinate(coordinate)
     }
     
     func myoConnected() {
@@ -146,7 +144,8 @@ class ViewController: UIViewController {
             return
         }
         
-        if z <= baseZ - 0.25 {
+        println("\(baseZ), \(z)")
+        if z + 0.3 >= baseZ {
             if canForwards {
                 move(true)
                 canForwards = false
@@ -154,7 +153,7 @@ class ViewController: UIViewController {
                 let timer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "allowForwards", userInfo: nil, repeats: false)
                 NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
             }
-        } else if z >= baseZ + 0.25 {
+        } else if z - 0.3 <= baseZ {
             if canBackwards {
                 move(true)
                 canBackwards = false
