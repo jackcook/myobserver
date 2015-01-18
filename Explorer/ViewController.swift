@@ -27,6 +27,8 @@ class ViewController: UIViewController {
     var location: CLLocation!
     
     var currentPose = TLMPoseType.Unknown
+    
+    var basesSet = false
     var baseY: Float = 5
     var baseZ: Float = 5
     
@@ -124,19 +126,22 @@ class ViewController: UIViewController {
         let y: Float = orientationEvent.quaternion.y
         let z: Float = orientationEvent.quaternion.z
         
+        quaternionY = y
         quaternionZ = z
         
         if currentPose == .Fist {
             let camera = GMSPanoramaCamera(heading: left.camera.orientation.heading, pitch: left.camera.orientation.pitch, zoom: 3 + ((baseY + (baseY + -y)) * 8))
             left.animateToCamera(camera, animationDuration: 0.05)
             
-            if y >= 0.5 {
+            if -y <= baseY - 0.3 {
+                println("stopped fisting, \(baseY), \(y)")
                 currentPose = .Unknown
             }
         }
         
-        if baseZ == 5 {
-            let timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "setBase", userInfo: nil, repeats: false)
+        if !basesSet {
+            basesSet = true
+            let timer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "setBase", userInfo: nil, repeats: false)
             NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
             return
         }
@@ -145,21 +150,21 @@ class ViewController: UIViewController {
             if canForwards {
                 move(true)
                 canForwards = false
+                
+                let timer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "allowForwards", userInfo: nil, repeats: false)
+                NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
             }
-            
-            let timer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "allowForwards", userInfo: nil, repeats: false)
-            NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
         } else if z >= baseZ + 0.25 {
             if canBackwards {
                 move(true)
                 canBackwards = false
+                
+                let timer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "allowBackwards", userInfo: nil, repeats: false)
+                NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
             }
-            
-            let timer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "allowBackwards", userInfo: nil, repeats: false)
-            NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
         }
         
-        println("x: \(-orientationEvent.quaternion.x), y: \(-orientationEvent.quaternion.y), zoom: \(left.camera.zoom)")
+        //println("x: \(-orientationEvent.quaternion.x), y: \(-orientationEvent.quaternion.y), zoom: \(left.camera.zoom)")
     }
     
     func allowForwards() {
@@ -171,6 +176,7 @@ class ViewController: UIViewController {
     }
     
     func setBase() {
+        println("set base values")
         baseY = baseY == 5 ? quaternionY : baseY
         baseZ = baseZ == 5 ? quaternionZ : baseZ
     }
