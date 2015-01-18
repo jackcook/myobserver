@@ -17,6 +17,7 @@
 		EB26CA501A6B617D008A5D04 /* MyoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB26CA4F1A6B617D008A5D04 /* MyoKit.framework */; };
 		EB26CA521A6B6240008A5D04 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB26CA511A6B6240008A5D04 /* CoreBluetooth.framework */; };
 		EB26CA541A6B6247008A5D04 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB26CA531A6B6247008A5D04 /* SystemConfiguration.framework */; };
+		EB50DF231A6C111A00939C08 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = EB50DF221A6C111A00939C08 /* check.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		EB26CA4F1A6B617D008A5D04 /* MyoKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MyoKit.framework; sourceTree = SOURCE_ROOT; };
 		EB26CA511A6B6240008A5D04 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		EB26CA531A6B6247008A5D04 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		EB50DF221A6C111A00939C08 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		F7918912A5815A300EF88120 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,6 +117,7 @@
 			children = (
 				EB26CA4F1A6B617D008A5D04 /* MyoKit.framework */,
 				EB24F6931A6B0B050047AF82 /* util */,
+				EB50DF211A6C111A00939C08 /* images */,
 				EB001FF21A6B0A6C0057F374 /* AppDelegate.swift */,
 				EB001FF41A6B0A6C0057F374 /* ViewController.swift */,
 				EB001FF61A6B0A6C0057F374 /* Main.storyboard */,
@@ -156,6 +159,14 @@
 				EB24F6941A6B0B120047AF82 /* ObjectiveBridge.h */,
 			);
 			path = util;
+			sourceTree = "<group>";
+		};
+		EB50DF211A6C111A00939C08 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				EB50DF221A6C111A00939C08 /* check.png */,
+			);
+			path = images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,6 +253,7 @@
 			files = (
 				EB001FF81A6B0A6C0057F374 /* Main.storyboard in Resources */,
 				EB001FFD1A6B0A6C0057F374 /* LaunchScreen.xib in Resources */,
+				EB50DF231A6C111A00939C08 /* check.png in Resources */,
 				EB001FFA1A6B0A6C0057F374 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

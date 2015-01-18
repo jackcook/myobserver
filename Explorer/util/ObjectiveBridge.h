@@ -8,3 +8,5 @@
 
 #import <GoogleMaps/GoogleMaps.h>
 #import <MyoKit/MyoKit.h>
+
+#import "MBProgressHUD.h"

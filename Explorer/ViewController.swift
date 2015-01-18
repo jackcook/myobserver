@@ -38,6 +38,8 @@ class ViewController: UIViewController {
     var quaternionY: Float = 0
     var quaternionZ: Float = 0
     
+    var hud: MBProgressHUD!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,7 +54,7 @@ class ViewController: UIViewController {
             self.right.animateToCamera(camera, animationDuration: 0.01)
         })
         
-        location = CLLocation(latitude: 42.29217747796312, longitude: -83.71481317402007)
+        location = CLLocation(latitude: 40.7577, longitude: -73.9857)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged:", name: UIDeviceOrientationDidChangeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "myoConnected", name: TLMHubDidConnectDeviceNotification, object: nil)
@@ -67,6 +69,17 @@ class ViewController: UIViewController {
             let settings = TLMSettingsViewController()
             self.presentViewController(settings, animated: true, completion: nil)
             TLMHub.sharedHub().attachToAdjacent()
+        } else {
+            if !basesSet {
+                basesSet = true
+                
+                hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                hud.mode = MBProgressHUDModeIndeterminate
+                hud.labelText = "Calibrating..."
+                
+                let timer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "setBase", userInfo: nil, repeats: false)
+                NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+            }
         }
     }
     
@@ -138,9 +151,6 @@ class ViewController: UIViewController {
         }
         
         if !basesSet {
-            basesSet = true
-            let timer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "setBase", userInfo: nil, repeats: false)
-            NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
             return
         }
         
@@ -162,8 +172,6 @@ class ViewController: UIViewController {
                 NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
             }
         }
-        
-        //println("x: \(-orientationEvent.quaternion.x), y: \(-orientationEvent.quaternion.y), zoom: \(left.camera.zoom)")
     }
     
     func allowForwards() {
@@ -178,6 +186,17 @@ class ViewController: UIViewController {
         println("set base values")
         baseY = baseY == 5 ? quaternionY : baseY
         baseZ = baseZ == 5 ? quaternionZ : baseZ
+        
+        hud.mode = MBProgressHUDModeCustomView
+        hud.labelText = "Calibrated!"
+        hud.customView = UIImageView(image: UIImage(named: "check.png"))
+        
+        let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "hideHUD", userInfo: nil, repeats: false)
+        NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+    }
+    
+    func hideHUD() {
+        hud.hide(true)
     }
     
     func didReceivePoseChange(notification: NSNotification) {
