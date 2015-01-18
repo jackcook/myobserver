@@ -32,14 +32,14 @@
 /* Begin PBXFileReference section */
 		86F404864A5983784D0D79F3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7962629048CFEBD46E8CB93 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		EB001FED1A6B0A6C0057F374 /* Explorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Explorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB001FED1A6B0A6C0057F374 /* MyObserver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyObserver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB001FF11A6B0A6C0057F374 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB001FF21A6B0A6C0057F374 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EB001FF41A6B0A6C0057F374 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EB001FF71A6B0A6C0057F374 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EB001FF91A6B0A6C0057F374 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EB001FFC1A6B0A6C0057F374 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		EB0020021A6B0A6C0057F374 /* ExplorerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExplorerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB0020021A6B0A6C0057F374 /* MyObserverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyObserverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB0020071A6B0A6C0057F374 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB0020081A6B0A6C0057F374 /* ExplorerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerTests.swift; sourceTree = "<group>"; };
 		EB24F6941A6B0B120047AF82 /* ObjectiveBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectiveBridge.h; sourceTree = "<group>"; };
@@ -104,8 +104,8 @@
 		EB001FEE1A6B0A6C0057F374 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EB001FED1A6B0A6C0057F374 /* Explorer.app */,
-				EB0020021A6B0A6C0057F374 /* ExplorerTests.xctest */,
+				EB001FED1A6B0A6C0057F374 /* MyObserver.app */,
+				EB0020021A6B0A6C0057F374 /* MyObserverTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -161,9 +161,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EB001FEC1A6B0A6C0057F374 /* Explorer */ = {
+		EB001FEC1A6B0A6C0057F374 /* MyObserver */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EB00200C1A6B0A6C0057F374 /* Build configuration list for PBXNativeTarget "Explorer" */;
+			buildConfigurationList = EB00200C1A6B0A6C0057F374 /* Build configuration list for PBXNativeTarget "MyObserver" */;
 			buildPhases = (
 				7C1AA8810712C31367A2837C /* Check Pods Manifest.lock */,
 				EB001FE91A6B0A6C0057F374 /* Sources */,
@@ -175,14 +175,14 @@
 			);
 			dependencies = (
 			);
-			name = Explorer;
+			name = MyObserver;
 			productName = Explorer;
-			productReference = EB001FED1A6B0A6C0057F374 /* Explorer.app */;
+			productReference = EB001FED1A6B0A6C0057F374 /* MyObserver.app */;
 			productType = "com.apple.product-type.application";
 		};
-		EB0020011A6B0A6C0057F374 /* ExplorerTests */ = {
+		EB0020011A6B0A6C0057F374 /* MyObserverTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EB00200F1A6B0A6C0057F374 /* Build configuration list for PBXNativeTarget "ExplorerTests" */;
+			buildConfigurationList = EB00200F1A6B0A6C0057F374 /* Build configuration list for PBXNativeTarget "MyObserverTests" */;
 			buildPhases = (
 				EB001FFE1A6B0A6C0057F374 /* Sources */,
 				EB001FFF1A6B0A6C0057F374 /* Frameworks */,
@@ -193,9 +193,9 @@
 			dependencies = (
 				EB0020041A6B0A6C0057F374 /* PBXTargetDependency */,
 			);
-			name = ExplorerTests;
+			name = MyObserverTests;
 			productName = ExplorerTests;
-			productReference = EB0020021A6B0A6C0057F374 /* ExplorerTests.xctest */;
+			productReference = EB0020021A6B0A6C0057F374 /* MyObserverTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -216,7 +216,7 @@
 					};
 				};
 			};
-			buildConfigurationList = EB001FE81A6B0A6C0057F374 /* Build configuration list for PBXProject "Explorer" */;
+			buildConfigurationList = EB001FE81A6B0A6C0057F374 /* Build configuration list for PBXProject "MyObserver" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -229,8 +229,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EB001FEC1A6B0A6C0057F374 /* Explorer */,
-				EB0020011A6B0A6C0057F374 /* ExplorerTests */,
+				EB001FEC1A6B0A6C0057F374 /* MyObserver */,
+				EB0020011A6B0A6C0057F374 /* MyObserverTests */,
 			);
 		};
 /* End PBXProject section */
@@ -311,7 +311,7 @@
 /* Begin PBXTargetDependency section */
 		EB0020041A6B0A6C0057F374 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = EB001FEC1A6B0A6C0057F374 /* Explorer */;
+			target = EB001FEC1A6B0A6C0057F374 /* MyObserver */;
 			targetProxy = EB0020031A6B0A6C0057F374 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -424,7 +424,7 @@
 				);
 				INFOPLIST_FILE = Explorer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MyObserver;
 				SWIFT_OBJC_BRIDGING_HEADER = Explorer/util/ObjectiveBridge.h;
 			};
 			name = Debug;
@@ -440,7 +440,7 @@
 				);
 				INFOPLIST_FILE = Explorer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MyObserver;
 				SWIFT_OBJC_BRIDGING_HEADER = Explorer/util/ObjectiveBridge.h;
 			};
 			name = Release;
@@ -459,8 +459,8 @@
 				);
 				INFOPLIST_FILE = ExplorerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Explorer.app/Explorer";
+				PRODUCT_NAME = MyObserverTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyObserver.app/MyObserver";
 			};
 			name = Debug;
 		};
@@ -474,15 +474,15 @@
 				);
 				INFOPLIST_FILE = ExplorerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Explorer.app/Explorer";
+				PRODUCT_NAME = MyObserverTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyObserver.app/MyObserver";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EB001FE81A6B0A6C0057F374 /* Build configuration list for PBXProject "Explorer" */ = {
+		EB001FE81A6B0A6C0057F374 /* Build configuration list for PBXProject "MyObserver" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EB00200A1A6B0A6C0057F374 /* Debug */,
@@ -491,7 +491,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EB00200C1A6B0A6C0057F374 /* Build configuration list for PBXNativeTarget "Explorer" */ = {
+		EB00200C1A6B0A6C0057F374 /* Build configuration list for PBXNativeTarget "MyObserver" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EB00200D1A6B0A6C0057F374 /* Debug */,
@@ -500,7 +500,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EB00200F1A6B0A6C0057F374 /* Build configuration list for PBXNativeTarget "ExplorerTests" */ = {
+		EB00200F1A6B0A6C0057F374 /* Build configuration list for PBXNativeTarget "MyObserverTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EB0020101A6B0A6C0057F374 /* Debug */,
