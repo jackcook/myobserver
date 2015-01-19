@@ -20,14 +20,18 @@ class ViewController: UIViewController {
     var left: GMSPanoramaView!
     var right: GMSPanoramaView!
     
+    var h: Double = 0
+    var pitch: Double = 0
+    var zoom: Float = 1
+    
     var viewsWereLaidOut = false
     
     let startLat = 40.7577
     let startLon = -73.9857
     
-    var h: Double = 0
     var heading: CLHeading!
     var location: CLLocation!
+    var magnetometer: Double = 0
     
     var currentPose = TLMPoseType.Unknown
     
@@ -46,15 +50,23 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        motionManager.deviceMotionUpdateInterval = 0.01
+        motionManager.deviceMotionUpdateInterval = 0.03
         motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: { (motion, error) -> Void in
-            let heading = 180 + (-motion.attitude.yaw * 57.295)
-            let pitch = motion.gravity.z * 90
-            self.h = heading
+            self.h = 180 + (-motion.attitude.yaw * 57.295)
+            self.pitch = motion.gravity.z * 90
+        })
+        
+        motionManager.magnetometerUpdateInterval = 0.03
+        motionManager.startMagnetometerUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: { (data: CMMagnetometerData!, error) -> Void in
+            if (self.magnetometer - data.magneticField.z) >= 166 && self.magnetometer != 0 {
+                self.zoom = self.zoom == 5 ? 1 : 5
+                
+                let camera = GMSPanoramaCamera(heading: self.h, pitch: self.pitch, zoom: self.zoom)
+                self.left.animateToCamera(camera, animationDuration: 0.75)
+                self.right.animateToCamera(camera, animationDuration: 0.75)
+            }
             
-            let camera = GMSPanoramaCamera(orientation: GMSOrientation(heading: heading, pitch: pitch), zoom: self.left.camera.zoom, FOV: self.left.camera.FOV)
-            self.left.animateToCamera(camera, animationDuration: 0.01)
-            self.right.animateToCamera(camera, animationDuration: 0.01)
+            self.magnetometer = data.magneticField.z
         })
         
         location = CLLocation(latitude: startLat, longitude: startLon)
@@ -63,10 +75,13 @@ class ViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "myoConnected", name: TLMHubDidConnectDeviceNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceivePoseChange:", name: TLMMyoDidReceivePoseChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveOrientationEvent:", name: TLMMyoDidReceiveOrientationEventNotification, object: nil)
+        
+        let timer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: "updateCamera", userInfo: nil, repeats: true)
+        NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
     }
     
     override func viewDidAppear(animated: Bool) {
-        UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
+        /*UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
         
         if TLMHub.sharedHub().myoDevices().count == 0 {
             let settings = TLMSettingsViewController()
@@ -83,7 +98,7 @@ class ViewController: UIViewController {
                 let timer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "setBase", userInfo: nil, repeats: false)
                 NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
             }
-        }
+        }*/
     }
     
     override func viewDidLayoutSubviews() {
@@ -104,6 +119,12 @@ class ViewController: UIViewController {
             leftPanorama.addSubview(left)
             rightPanorama.addSubview(right)
         }
+    }
+    
+    func updateCamera() {
+        let camera = GMSPanoramaCamera(heading: h, pitch: pitch, zoom: zoom)
+        self.left.animateToCamera(camera, animationDuration: 0.05)
+        self.right.animateToCamera(camera, animationDuration: 0.05)
     }
     
     func orientationChanged(notification: NSNotification) {
@@ -144,8 +165,7 @@ class ViewController: UIViewController {
         quaternionZ = z
         
         if currentPose == .Fist {
-            let camera = GMSPanoramaCamera(heading: left.camera.orientation.heading, pitch: left.camera.orientation.pitch, zoom: 3 + ((baseY + (baseY + -y)) * 8))
-            left.animateToCamera(camera, animationDuration: 0.05)
+            zoom = 3 + ((baseY + (baseY + -y)) * 8)
             
             if -y <= baseY - 0.3 {
                 println("stopped fisting, \(baseY), \(y)")
