@@ -14,9 +14,9 @@
 		EB001FFA1A6B0A6C0057F374 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB001FF91A6B0A6C0057F374 /* Images.xcassets */; };
 		EB001FFD1A6B0A6C0057F374 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB001FFB1A6B0A6C0057F374 /* LaunchScreen.xib */; };
 		EB0020091A6B0A6C0057F374 /* ExplorerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0020081A6B0A6C0057F374 /* ExplorerTests.swift */; };
-		EB26CA501A6B617D008A5D04 /* MyoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB26CA4F1A6B617D008A5D04 /* MyoKit.framework */; };
 		EB26CA521A6B6240008A5D04 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB26CA511A6B6240008A5D04 /* CoreBluetooth.framework */; };
 		EB26CA541A6B6247008A5D04 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB26CA531A6B6247008A5D04 /* SystemConfiguration.framework */; };
+		EB3D62A11A92F5AB00DD1D59 /* MyoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3D62A01A92F5AB00DD1D59 /* MyoKit.framework */; };
 		EB50DF231A6C111A00939C08 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = EB50DF221A6C111A00939C08 /* check.png */; };
 		EB50DF251A6C1B8800939C08 /* pegman.png in Resources */ = {isa = PBXBuildFile; fileRef = EB50DF241A6C1B8800939C08 /* pegman.png */; };
 /* End PBXBuildFile section */
@@ -45,9 +45,9 @@
 		EB0020071A6B0A6C0057F374 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB0020081A6B0A6C0057F374 /* ExplorerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerTests.swift; sourceTree = "<group>"; };
 		EB24F6941A6B0B120047AF82 /* ObjectiveBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectiveBridge.h; sourceTree = "<group>"; };
-		EB26CA4F1A6B617D008A5D04 /* MyoKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MyoKit.framework; sourceTree = SOURCE_ROOT; };
 		EB26CA511A6B6240008A5D04 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		EB26CA531A6B6247008A5D04 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		EB3D62A01A92F5AB00DD1D59 /* MyoKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MyoKit.framework; path = Frameworks/MyoKit.framework; sourceTree = SOURCE_ROOT; };
 		EB50DF221A6C111A00939C08 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		EB50DF241A6C1B8800939C08 /* pegman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pegman.png; sourceTree = "<group>"; };
 		F7918912A5815A300EF88120 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -59,9 +59,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB26CA541A6B6247008A5D04 /* SystemConfiguration.framework in Frameworks */,
+				EB3D62A11A92F5AB00DD1D59 /* MyoKit.framework in Frameworks */,
 				EB26CA521A6B6240008A5D04 /* CoreBluetooth.framework in Frameworks */,
 				B4E0B3B09CD4B140F830CB54 /* libPods.a in Frameworks */,
-				EB26CA501A6B617D008A5D04 /* MyoKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,7 +117,7 @@
 		EB001FEF1A6B0A6C0057F374 /* Explorer */ = {
 			isa = PBXGroup;
 			children = (
-				EB26CA4F1A6B617D008A5D04 /* MyoKit.framework */,
+				EB3D62A01A92F5AB00DD1D59 /* MyoKit.framework */,
 				EB24F6931A6B0B050047AF82 /* util */,
 				EB50DF211A6C111A00939C08 /* images */,
 				EB001FF21A6B0A6C0057F374 /* AppDelegate.swift */,
@@ -437,6 +437,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = Explorer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -454,6 +455,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = Explorer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
